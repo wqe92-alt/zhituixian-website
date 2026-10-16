@@ -1,0 +1,35 @@
+{
+  "name": "zhituixian-website",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "智退险 · 线下服装无理由退货保险 官网（静态站）",
+  "scripts": {
+    "sync": "node scripts/sync-model.mjs",
+    "predev": "npm run sync",
+    "dev": "astro dev",
+    "prebuild": "npm run sync",
+    "build": "astro build && node scripts/redline-scan.mjs",
+    "preview": "astro preview",
+    "pretest": "npm run sync",
+    "test": "vitest run",
+    "scan": "node scripts/redline-scan.mjs"
+  },
+  "dependencies": {
+    "@astrojs/svelte": "9.0.1",
+    "@fontsource-variable/fraunces": "5.3.0",
+    "@fontsource-variable/inter": "5.3.0",
+    "@fontsource-variable/noto-serif-sc": "5.3.1",
+    "@tailwindcss/vite": "4.3.3",
+    "astro": "7.3.8",
+    "svelte": "5.57.2",
+    "tailwindcss": "4.3.3",
+    "typescript": "6.0.3"
+  },
+  "devDependencies": {
+    "vitest": "5.0.4"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  }
+}

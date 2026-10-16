@@ -1,0 +1,56 @@
+---
+import SectionHead from '../SectionHead.astro';
+import Icon from '../Icon.astro';
+import { credibilityZ, TYPICAL_INPUT } from '../../lib/engine';
+import { DIVIDEND_RULE } from '../../content/terms';
+import type { IconName } from '../../lib/icons';
+
+const units = TYPICAL_INPUT.monthlyUnits;
+const milestones = [3, 12, 24].map((m) => ({ m, z: Math.round(credibilityZ(units * m) * 100) }));
+
+const steps: { icon: IconName; title: string; body: string }[] = [
+  { icon: 'upload', title: '每月回传', body: '月销售额和销量、月退货件数，以及退货商品的品类和价格。' },
+  { icon: 'percent', title: '保费 7 折', body: '回传当月起，保费按 7 折收取。' },
+  { icon: 'target', title: '价格更贴合您的门店', body: '回传越久，定价越依据您门店自己的退货记录。退货控制得好，保费随之降低。' },
+];
+---
+
+<section id="dividend" class="container-x py-20 md:py-28">
+  <SectionHead title="数据换利：回传经营数据，保费 7 折" lede="您提供经营数据，我们给您保费优惠；这些数据也让您的价格越来越准确。" />
+  <ol class="mt-12 grid gap-5 md:grid-cols-3">
+    {
+      steps.map((s, i) => (
+        <li class="reveal card p-7" style={`--d:${i * 0.08}s`}>
+          <span class="grid size-11 place-items-center rounded-full bg-brand-soft text-brand">
+            <Icon name={s.icon} class="size-5" />
+          </span>
+          <h3 class="mt-6 text-[1.2rem]">{s.title}</h3>
+          <p class="mt-2 text-[0.92rem] leading-[1.8] text-ink-2">{s.body}</p>
+        </li>
+      ))
+    }
+  </ol>
+
+  <div class="reveal mt-10 rounded-[22px] bg-ink p-7 text-paper sm:p-9">
+    <p class="font-semibold">回传时间越长，本店记录在定价中的比重越高</p>
+    <p class="mt-1 text-[0.84rem] text-paper/60">以月销约 140 件的门店为例</p>
+    <ul class="mt-7 space-y-4">
+      {
+        milestones.map((x) => (
+          <li class="grid grid-cols-[4.5rem_1fr_3.5rem] items-center gap-4 text-[0.9rem]">
+            <span class="text-paper/75">{x.m} 个月</span>
+            <span class="h-2.5 overflow-hidden rounded-full bg-paper/15">
+              <span class="block h-full rounded-full bg-blush" style={`width:${x.z}%`} />
+            </span>
+            <span class="num text-right text-lg">{x.z}%</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <div class="reveal mt-5 flex items-start gap-3 rounded-2xl bg-paper-2 px-5 py-4 text-[0.9rem] leading-relaxed text-ink-2">
+    <Icon name="info" class="mt-0.5 size-4 shrink-0 text-brand" />
+    <span>回传是投保时约定的义务。{DIVIDEND_RULE}</span>
+  </div>
+</section>

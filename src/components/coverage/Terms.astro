@@ -1,0 +1,57 @@
+---
+// 保险条款全文：有列项的条款，首句为引语，其后按（一）（二）……编号
+import SectionHead from '../SectionHead.astro';
+import Icon from '../Icon.astro';
+import { CONTRACT } from '../../content/contract';
+import { POLICY_DOC_NAME } from '../../content/terms';
+
+const NUMS = ['一', '二', '三', '四', '五', '六'];
+const isList = (items: string[]) => items.length > 1 && items[0].endsWith('：');
+---
+
+<section id="terms" class="border-t hairline">
+  <div class="container-x grid gap-12 py-20 md:py-28 lg:grid-cols-[0.75fr_1.5fr] lg:gap-16">
+    <SectionHead title="保险条款" lede={POLICY_DOC_NAME}>
+      <p class="reveal mt-6 text-[0.84rem] leading-relaxed text-ink-2">以上条款供投保前阅读，具体保障以保险合同为准。</p>
+    </SectionHead>
+    <div class="reveal divide-y divide-line border-y hairline">
+      {
+        CONTRACT.map((ch, i) => (
+          <details class="group" open={i === 0}>
+            <summary class="flex items-center justify-between gap-4 py-5">
+              <span class="serif text-[1.1rem] font-semibold text-ink">{ch.title}</span>
+              <span class="grid size-7 shrink-0 place-items-center rounded-full border hairline text-ink-2 transition group-open:rotate-45 group-open:border-brand group-open:text-brand">
+                <Icon name="plus" class="size-3.5" />
+              </span>
+            </summary>
+            <div class="space-y-6 pb-8">
+              {ch.articles.map((a) => (
+                <div>
+                  <p class="font-semibold text-ink">
+                    <span class="mr-2 text-brand">{a.no}</span>
+                    {a.title}
+                  </p>
+                  {isList(a.items) ? (
+                    <div class="mt-2 text-[0.92rem] leading-[1.9] text-ink-2">
+                      <p>{a.items[0]}</p>
+                      <ol class="mt-1 space-y-1">
+                        {a.items.slice(1).map((it, k) => (
+                          <li class="flex gap-1">
+                            <span class="shrink-0">（{NUMS[k]}）</span>
+                            <span>{it}</span>
+                          </li>
+                        ))}
+                      </ol>
+                    </div>
+                  ) : (
+                    a.items.map((it) => <p class="mt-2 text-[0.92rem] leading-[1.9] text-ink-2">{it}</p>)
+                  )}
+                </div>
+              ))}
+            </div>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>

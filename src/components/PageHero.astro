@@ -1,0 +1,33 @@
+---
+import Wash from './Wash.astro';
+
+interface Props {
+  eyebrow: string;
+  title: string;
+  lede?: string;
+  tone?: 'mix' | 'lilac' | 'blush' | 'plum' | 'brand';
+  seed?: number;
+}
+
+const { eyebrow, title, lede, tone = 'mix', seed = 1 } = Astro.props;
+const hasAside = Astro.slots.has('default');
+---
+
+<section class="relative overflow-hidden border-b hairline">
+  <Wash tone={tone} seed={seed} class="-right-[12%] -top-[34%] h-[680px] w-[680px]" opacity={0.7} eager />
+  <div class:list={['container-x relative grid gap-12 pb-16 pt-12 md:pb-24 md:pt-20', hasAside && 'lg:grid-cols-[1.1fr_1fr] lg:items-end']}>
+    <div>
+      <p class="eyebrow rise">{eyebrow}</p>
+      <h1 class="rise mt-6 text-[clamp(2.3rem,5vw,3.9rem)] font-bold leading-[1.15]" style="--d:.06s" set:html={title} />
+      {lede && <p class="rise mt-6 max-w-2xl text-[1.04rem] leading-[1.95] text-ink-2" style="--d:.12s" set:html={lede} />}
+      <slot name="actions" />
+    </div>
+    {
+      hasAside && (
+        <div class="rise" style="--d:.2s">
+          <slot />
+        </div>
+      )
+    }
+  </div>
+</section>

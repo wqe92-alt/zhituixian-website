@@ -1,0 +1,188 @@
+{
+  "rateManual": {
+    "base": {
+      "freqPct": 0.7606,
+      "lossPct": 3.614,
+      "grossPct": 0.2183
+    },
+    "frequency": {
+      "category": {
+        "A": 1,
+        "B": 1.324,
+        "C": 2.018
+      },
+      "location": {
+        "A": 1,
+        "B": 1.285,
+        "C": 1.115
+      },
+      "channel": {
+        "A": 1,
+        "B": 1.339,
+        "C": 1.768
+      },
+      "policy": {
+        "A": 1,
+        "B": 1.087,
+        "C": 1.35
+      },
+      "clothing_type": {
+        "M": 1,
+        "W": 1.634,
+        "K": 1.728,
+        "S": 0.855,
+        "U": 0.829,
+        "B": 1.186
+      },
+      "city_tier": {
+        "T4": 1,
+        "T3": 1.162,
+        "T2": 1.281,
+        "T1": 1.531
+      },
+      "store_age": {
+        "3-10": 1,
+        "<1": 1.213,
+        "1-3": 1.085,
+        ">10": 0.858
+      },
+      "season": {
+        "regular": 1,
+        "season_change": 1.358
+      },
+      "interactions": {
+        "catC_locB": 1.212,
+        "cityT1_locB": 1.062
+      }
+    },
+    "severity": {
+      "category": {
+        "A": 1,
+        "B": 1.142,
+        "C": 1.285
+      },
+      "price_band": {
+        "1": 1,
+        "2": 1.039,
+        "3": 1.072,
+        "4": 1.105,
+        "5": 1.118
+      },
+      "clothing_type": {
+        "M": 1,
+        "W": 1.223,
+        "K": 1.106,
+        "S": 0.936,
+        "U": 1.498,
+        "B": 1.062
+      },
+      "city_tier": {
+        "T3": 1,
+        "T1": 0.888,
+        "T2": 0.964,
+        "T4": 1.028
+      },
+      "refresh_freq": {
+        "seasonal": 1,
+        "weekly": 1.046,
+        "biweekly": 1.022,
+        "monthly": 0.997
+      },
+      "season": {
+        "regular": 1,
+        "season_change": 1.083
+      }
+    }
+  },
+  "underwriting": {
+    "capRatePct": 25,
+    "rejectedCombosPct": 3.916,
+    "maxRateBeforeCapPct": 72.27,
+    "nCombos": 15552,
+    "capBaseFreqPct": 2.081440831012544
+  },
+  "typical": {
+    "profile": {
+      "clothing_type": [
+        "W"
+      ],
+      "category": "B",
+      "price_band": "2",
+      "refresh_freq": "monthly",
+      "location": "B",
+      "city_tier": "T4",
+      "store_age": "3-10",
+      "channel": "A",
+      "policy": "B"
+    },
+    "monthlySalesYuan": 189890,
+    "monthlyUnits": 143,
+    "expectedReturns": 3.287
+  },
+  "pricing": {
+    "deductible": 1100,
+    "discountRate": 0.3,
+    "typicalGrossRatePct": 0.9809,
+    "typicalPremiumYuan": 1863
+  },
+  "credibility": {
+    "K": 621.2,
+    "zCurve": [
+      {
+        "month": 0,
+        "units": 0,
+        "z": 0
+      },
+      {
+        "month": 1,
+        "units": 143,
+        "z": 0.1871
+      },
+      {
+        "month": 2,
+        "units": 286,
+        "z": 0.3153
+      },
+      {
+        "month": 3,
+        "units": 429,
+        "z": 0.4085
+      },
+      {
+        "month": 6,
+        "units": 858,
+        "z": 0.5801
+      },
+      {
+        "month": 9,
+        "units": 1287,
+        "z": 0.6745
+      },
+      {
+        "month": 12,
+        "units": 1716,
+        "z": 0.7342
+      },
+      {
+        "month": 18,
+        "units": 2574,
+        "z": 0.8056
+      },
+      {
+        "month": 24,
+        "units": 3432,
+        "z": 0.8467
+      },
+      {
+        "month": 30,
+        "units": 4290,
+        "z": 0.8735
+      },
+      {
+        "month": 36,
+        "units": 5148,
+        "z": 0.8923
+      }
+    ]
+  }
+}

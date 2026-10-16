@@ -1,0 +1,21 @@
+---
+import Base from '../layouts/Base.astro';
+import Wash from '../components/Wash.astro';
+import Icon from '../components/Icon.astro';
+import { url } from '../lib/url';
+---
+
+<Base title="页面不存在">
+  <section class="relative overflow-hidden">
+    <Wash tone="mix" seed={1} class="left-1/2 top-1/2 h-[560px] w-[560px] -translate-x-1/2 -translate-y-1/2" opacity={0.7} eager />
+    <div class="container-x relative flex min-h-[70vh] flex-col items-center justify-center py-24 text-center">
+      <p class="num text-[clamp(5rem,14vw,9rem)] leading-none text-brand">404</p>
+      <h1 class="mt-6 text-[clamp(1.6rem,3vw,2.2rem)]">页面不存在</h1>
+      <p class="mt-4 max-w-md text-ink-2">您访问的页面不存在，或已移动到新的位置。</p>
+      <div class="mt-9 flex flex-wrap justify-center gap-3">
+        <a href={url('/')} class="btn btn-primary">返回首页 <Icon name="arrow-right" class="arrow size-4" /></a>
+        <a href={url('/quote')} class="btn btn-ghost">测算保费</a>
+      </div>
+    </div>
+  </section>
+</Base>

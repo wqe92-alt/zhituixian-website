@@ -1,0 +1,148 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { url } from '../lib/url';
+
+interface Props {
+  active?: string;
+}
+
+const { active } = Astro.props;
+const NAV = [
+  { href: '/coverage', label: '保障' },
+  { href: '/claims', label: '理赔' },
+  { href: '/pricing', label: '价格与优惠' },
+  { href: '/faq', label: '常见问题' },
+];
+---
+
+<header class="site-header sticky top-0 z-50" data-header>
+  <div class="header-bg absolute inset-0 -z-10 border-b border-transparent transition-colors duration-300"></div>
+  <div class="container-x flex h-[5.4rem] items-center justify-between gap-6">
+    <a href={url('/')} class="shrink-0" aria-label="智退险首页">
+      <Logo />
+    </a>
+
+    <nav aria-label="主导航" class="hidden lg:block">
+      <ul class="flex items-center gap-3">
+        {
+          NAV.map((n) => (
+            <li>
+              <a
+                href={url(n.href)}
+                class:list={['nav-link', active === n.href && 'is-active']}
+                aria-current={active === n.href ? 'page' : undefined}
+              >
+                {n.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="flex items-center gap-2">
+      <a href={url('/quote')} class="btn btn-primary hidden !px-6 !py-3 text-[1rem] sm:inline-flex">
+        测算保费 <Icon name="arrow-right" class="arrow size-4" />
+      </a>
+      <button
+        type="button"
+        class="grid size-11 place-items-center rounded-full border hairline lg:hidden"
+        aria-controls="mobile-nav"
+        aria-expanded="false"
+        data-menu-toggle
+      >
+        <span class="sr-only">打开菜单</span>
+        <Icon name="menu" class="size-5" />
+      </button>
+    </div>
+  </div>
+
+  <div id="mobile-nav" class="mobile-nav lg:hidden" hidden>
+    <nav aria-label="移动端导航" class="container-x pb-8 pt-2">
+      <ul class="divide-y divide-line border-y hairline">
+        {
+          NAV.map((n) => (
+            <li>
+              <a
+                href={url(n.href)}
+                class="serif flex items-center justify-between py-4 text-xl"
+                aria-current={active === n.href ? 'page' : undefined}
+              >
+                {n.label}
+                <Icon name="arrow-right" class="size-4 text-ink-2" />
+              </a>
+            </li>
+          ))
+        }
+        <li>
+          <a href={url('/about')} class="serif flex items-center justify-between py-4 text-xl">
+            关于我们 <Icon name="arrow-right" class="size-4 text-ink-2" />
+          </a>
+        </li>
+      </ul>
+      <a href={url('/quote')} class="btn btn-primary mt-6 w-full">测算保费 <Icon name="arrow-right" class="arrow size-4" /></a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const panel = document.getElementById('mobile-nav');
+
+  const onScroll = () => header?.toggleAttribute('data-scrolled', window.scrollY > 8);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  toggle?.addEventListener('click', () => {
+    const open = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!open));
+    panel?.toggleAttribute('hidden', open);
+    header?.toggleAttribute('data-menu-open', !open);
+  });
+</script>
+
+<style>
+  .header-bg {
+    background: rgb(250 246 240 / 0.72);
+    backdrop-filter: saturate(1.4) blur(14px);
+    -webkit-backdrop-filter: saturate(1.4) blur(14px);
+  }
+  [data-scrolled] .header-bg,
+  [data-menu-open] .header-bg {
+    border-bottom-color: var(--color-line);
+    background: rgb(250 246 240 / 0.97);
+  }
+  .nav-link {
+    position: relative;
+    display: inline-block;
+    padding: 0.55rem 1.05rem;
+    font-size: 1.06rem;
+    color: var(--color-ink-2);
+    transition: color 0.2s;
+  }
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 1.05rem;
+    right: 1.05rem;
+    bottom: 0.2rem;
+    height: 1.5px;
+    background: var(--color-brand);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s var(--ease-soft);
+  }
+  .nav-link:hover,
+  .nav-link.is-active {
+    color: var(--color-ink);
+  }
+  .nav-link:hover::after,
+  .nav-link.is-active::after {
+    transform: scaleX(1);
+  }
+  .mobile-nav {
+    background: rgb(250 246 240 / 0.97);
+  }
+</style>

@@ -1,0 +1,38 @@
+---
+import SectionHead from '../SectionHead.astro';
+import { quote, TYPICAL_INPUT } from '../../lib/engine';
+import { yuan } from '../../lib/format';
+
+const q = quote(TYPICAL_INPUT);
+const max = Math.max(...q.months.map((m) => m.premium));
+const wan = Math.round(TYPICAL_INPUT.monthlySalesYuan / 10000);
+---
+
+<section id="season" class="bg-paper-2 py-20 md:py-28">
+  <div class="container-x grid gap-12 lg:grid-cols-[0.9fr_1.3fr] lg:items-center lg:gap-16">
+    <SectionHead
+      title="换季月按换季月费率计费"
+      lede="3、4、9、10 月是服装换季的月份，退货更集中，折价也更多。这四个月的费率高一些，其余八个月按常规费率计费。"
+    />
+    <div class="reveal rounded-[22px] bg-paper p-6 sm:p-7">
+      <div class="flex flex-wrap items-baseline justify-between gap-3">
+        <p class="font-semibold text-ink">示例：月销售额 {wan} 万元的女装店</p>
+        <p class="flex items-center gap-4 text-[0.78rem] text-ink-2">
+          <span class="flex items-center gap-1.5"><span class="size-2.5 rounded-sm bg-lilac" />常规月 ¥{yuan(q.premium.regular)}</span>
+          <span class="flex items-center gap-1.5"><span class="size-2.5 rounded-sm bg-brand" />换季月 ¥{yuan(q.premium.season)}</span>
+        </p>
+      </div>
+      <ol class="mt-6 grid h-40 grid-cols-12 items-end gap-1.5 sm:gap-2.5" aria-label="12 个月保费">
+        {
+          q.months.map((m) => (
+            <li class="flex h-full flex-col items-center justify-end gap-1.5">
+              <span class:list={['w-full rounded-t-md', m.seasonChange ? 'bg-brand' : 'bg-lilac']} style={`height:${(m.premium / max) * 82}%`} />
+              <span class:list={['text-[0.72rem]', m.seasonChange ? 'font-semibold text-brand' : 'text-ink-2']}>{m.month}月</span>
+            </li>
+          ))
+        }
+      </ol>
+      <p class="mt-4 text-[0.84rem] text-ink-2">全年合计约 {yuan(q.annual)} 元，按当月实际销售额计算。</p>
+    </div>
+  </div>
+</section>

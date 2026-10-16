@@ -1,0 +1,57 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import Scope from '../components/coverage/Scope.astro';
+import Payout from '../components/coverage/Payout.astro';
+import Conditions from '../components/coverage/Conditions.astro';
+import Terms from '../components/coverage/Terms.astro';
+import model from '../data/model.json';
+import { yuan } from '../lib/format';
+import { url } from '../lib/url';
+
+const summary = [
+  ['保障对象', '顾客合规退货造成的折价损失'],
+  ['赔付方式', '按笔核定，按月赔付'],
+  ['每月免赔额', `${yuan(model.pricing.deductible)} 元`],
+  ['单月赔付', '不封顶，以实际损失为限'],
+  ['保险期间', '春夏季、秋冬季两个销售季'],
+  ['不予赔付', '骗保、伪造记录、强行退货、清仓特价商品'],
+];
+---
+
+<Base title="保障范围" active="/coverage" description="智退险保障顾客合规退货后，门店因商品折价处理产生的毛利损失：按笔核定，按月赔付，每月免赔额 1,100 元，单月赔付不封顶。">
+  <PageHero
+    eyebrow="保障范围"
+    title="退货折价损失，<br/>由智退险赔付"
+    lede="智退险保障顾客合规退货后，门店因商品折价处理产生的毛利损失。我们不赔商品本身，赔的是退货让您少赚的那部分。"
+    tone="blush"
+    seed={0}
+  >
+    <dl class="card divide-y divide-line bg-paper/85 text-[0.9rem]">
+      {
+        summary.map(([k, v]) => (
+          <div class="flex gap-5 px-6 py-3.5">
+            <dt class="w-20 shrink-0 font-semibold text-brand">{k}</dt>
+            <dd class="text-ink">{v}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </PageHero>
+
+  <Scope />
+  <Payout />
+  <Conditions />
+  <Terms />
+
+  <section class="border-t hairline bg-paper-2">
+    <div class="container-x flex flex-col items-start justify-between gap-6 py-14 md:flex-row md:items-center">
+      <p class="serif text-[clamp(1.4rem,2.6vw,2rem)] leading-snug">测算一下您门店的保费。</p>
+      <div class="flex flex-wrap gap-3">
+        <a href={url('/quote')} class="btn btn-primary">测算保费 <Icon name="arrow-right" class="arrow size-4" /></a>
+        <a href={url('/claims')} class="btn btn-ghost">查看理赔流程</a>
+      </div>
+    </div>
+  </section>
+</Base>

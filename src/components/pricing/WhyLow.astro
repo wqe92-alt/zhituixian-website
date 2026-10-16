@@ -1,0 +1,21 @@
+---
+import SectionHead from '../SectionHead.astro';
+import ChannelGap from '../charts/ChannelGap.astro';
+---
+
+<section id="why-low" class="bg-paper-2 py-20 md:py-28">
+  <div class="container-x grid gap-12 lg:grid-cols-[0.85fr_1.4fr] lg:items-center lg:gap-16">
+    <SectionHead
+      title="线下退货少，保费因此更低"
+      lede="网购服装的退货率普遍在 20% 以上，女装可达 50%–60%。线下门店的顾客当面试穿，退货少得多，符合投保条件的门店退货率一般只有 0.2%–4%。"
+    />
+    <figure class="reveal card bg-paper p-5 md:p-7">
+      <figcaption class="mb-5">
+        <p class="serif text-[1.08rem] font-semibold text-ink">网购与线下门店的退货率</p>
+        <p class="mt-1 text-[0.82rem] text-ink-2">对数刻度</p>
+      </figcaption>
+      <ChannelGap />
+      <p class="mt-4 text-[0.76rem] leading-relaxed text-ink-2">数据来源：行业报告与公开报道；线下门店数据根据上市服装企业年报测算。</p>
+    </figure>
+  </div>
+</section>

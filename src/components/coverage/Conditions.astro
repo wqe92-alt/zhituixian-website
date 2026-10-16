@@ -1,0 +1,60 @@
+---
+import SectionHead from '../SectionHead.astro';
+import Icon from '../Icon.astro';
+import type { IconName } from '../../lib/icons';
+
+const conditions: { icon: IconName; title: string; body: string }[] = [
+  { icon: 'tag', title: '明码标价', body: '商品明码标价，非特价、非赠品，有正规进货凭证。' },
+  { icon: 'receipt', title: 'POS 收银', body: '销售和退款通过 POS 系统完成，可与经营台账核对。' },
+  { icon: 'search', title: '门店验收', body: '退回商品经门店验收，确认不影响再次销售。' },
+  { icon: 'doc', title: '如实申报', body: '每月申报的退货件数不超过当月销量。' },
+];
+const months = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 1];
+const seasonChange = [3, 4, 9, 10];
+---
+
+<section id="conditions" class="bg-paper-2 py-20 md:py-28">
+  <div class="container-x">
+    <SectionHead title="投保条件" lede="满足以下条件的门店可以投保。部分门店需要顾问评估后承保。" />
+    <div class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      {
+        conditions.map((c, i) => (
+          <div class="reveal rounded-[18px] bg-paper p-6" style={`--d:${i * 0.06}s`}>
+            <Icon name={c.icon} class="size-6 text-brand" />
+            <p class="mt-5 font-semibold text-ink">{c.title}</p>
+            <p class="mt-2 text-[0.88rem] leading-[1.8] text-ink-2">{c.body}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<section id="period" class="container-x py-20 md:py-28">
+  <div class="grid gap-12 lg:grid-cols-[0.9fr_1.3fr] lg:gap-16">
+    <SectionHead title="保险期间" lede="按服装销售季分为两段。销售季结束后，仍在退货期限内的退货同样可以赔付。" />
+    <div class="reveal">
+      <ol class="grid grid-cols-12 gap-1">
+        {
+          months.map((mo, i) => (
+            <li class="flex flex-col items-center gap-2">
+              <span
+                class:list={[
+                  'h-14 w-full rounded-md',
+                  i < 7 ? 'bg-blush' : 'bg-lilac',
+                  seasonChange.includes(mo) && 'ring-2 ring-brand ring-offset-2 ring-offset-paper',
+                ]}
+              />
+              <span class:list={['text-[0.7rem]', seasonChange.includes(mo) ? 'font-semibold text-brand' : 'text-ink-2']}>{mo}月</span>
+            </li>
+          ))
+        }
+      </ol>
+      <div class="mt-5 grid gap-3 text-[0.9rem] sm:grid-cols-2">
+        <p class="flex items-start gap-2"><span class="mt-1.5 size-3 shrink-0 rounded-sm bg-blush" /><span><b>春夏季</b>：2 月 1 日至 8 月 31 日</span></p>
+        <p class="flex items-start gap-2"><span class="mt-1.5 size-3 shrink-0 rounded-sm bg-lilac" /><span><b>秋冬季</b>：9 月 1 日至次年 1 月 31 日</span></p>
+      </div>
+      <p class="mt-4 text-[0.86rem] text-ink-2">红框标出的 3、4、9、10 月为换季月，按换季月费率计费。</p>
+    </div>
+  </div>
+</section>

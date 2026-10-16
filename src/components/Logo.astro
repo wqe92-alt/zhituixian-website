@@ -1,0 +1,44 @@
+---
+// 由 legacy logo.png 矢量化而来（scripts/trace-logo.py），颜色随 currentColor
+import paths from '../assets/logo-paths.json';
+
+interface Props {
+  variant?: 'lockup' | 'mark' | 'wordmark';
+  class?: string;
+  label?: string;
+}
+
+const { variant = 'lockup', class: cls = '', label = '智退险 SMART RETURN' } = Astro.props;
+const { mark, word } = paths;
+---
+
+{
+  variant === 'mark' && (
+    <svg class={cls} viewBox={`0 0 ${mark.w} ${mark.h}`} fill="currentColor" fill-rule="evenodd" role="img" aria-label={label}>
+      <path d={mark.d} />
+    </svg>
+  )
+}
+{
+  variant === 'wordmark' && (
+    <svg class={cls} viewBox={`0 0 ${word.w} ${word.h}`} fill="currentColor" fill-rule="evenodd" role="img" aria-label="SMART RETURN">
+      <path d={word.d} />
+    </svg>
+  )
+}
+{
+  variant === 'lockup' && (
+    <span class={`inline-flex items-center gap-3 ${cls}`}>
+      <svg class="h-10 w-auto shrink-0 text-brand" viewBox={`0 0 ${mark.w} ${mark.h}`} fill="currentColor" fill-rule="evenodd" aria-hidden="true">
+        <path d={mark.d} />
+      </svg>
+      <span class="flex flex-col items-start leading-none">
+        <span class="serif text-[1.55rem] font-bold tracking-[0.14em] text-ink">智退险</span>
+        <svg class="mt-[6px] h-[8px] w-auto text-ink-2" viewBox={`0 0 ${word.w} ${word.h}`} fill="currentColor" fill-rule="evenodd" aria-hidden="true">
+          <path d={word.d} />
+        </svg>
+      </span>
+      <span class="sr-only">{label}</span>
+    </span>
+  )
+}

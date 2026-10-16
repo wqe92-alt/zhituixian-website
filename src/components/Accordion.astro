@@ -1,0 +1,28 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  items: { q: string; a: string }[];
+  class?: string;
+  numbered?: boolean;
+}
+
+const { items, class: cls = '', numbered = false } = Astro.props;
+---
+
+<div class={`divide-y divide-line border-y hairline ${cls}`}>
+  {
+    items.map((it, i) => (
+      <details class="group py-1">
+        <summary class="flex items-start gap-4 py-5 pr-1">
+          {numbered && <span class="num mt-0.5 w-7 shrink-0 text-[0.95rem] italic text-brand">{String(i + 1).padStart(2, '0')}</span>}
+          <span class="serif flex-1 text-[1.06rem] font-semibold leading-snug text-ink">{it.q}</span>
+          <span class="mt-0.5 grid size-7 shrink-0 place-items-center rounded-full border hairline text-ink-2 transition group-open:rotate-45 group-open:border-brand group-open:text-brand">
+            <Icon name="plus" class="size-3.5" />
+          </span>
+        </summary>
+        <p class:list={['pb-6 pr-10 text-[0.94rem] leading-[1.9] text-ink-2', numbered && 'pl-11']}>{it.a}</p>
+      </details>
+    ))
+  }
+</div>

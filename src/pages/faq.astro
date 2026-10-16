@@ -1,0 +1,30 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Accordion from '../components/Accordion.astro';
+import Icon from '../components/Icon.astro';
+import { FAQ_GROUPS } from '../content/faq';
+import { url } from '../lib/url';
+---
+
+<Base title="常见问题" active="/faq" description="智退险常见问题：保障范围、赔付方式、每月免赔额、单月赔付不封顶、保费计算、数据换利、理赔与投保。">
+  <PageHero eyebrow="常见问题" title="常见问题" lede="关于保障、价格和理赔的常见问题。没有找到答案，可以直接联系顾问。" tone="blush" seed={1}>
+    <div class="flex flex-wrap gap-3">
+      <button type="button" data-open-support="常见问题咨询" class="btn btn-ink"><Icon name="chat" class="size-4" /> 联系顾问</button>
+      <a href={url('/quote')} class="btn btn-ghost bg-paper/80">测算保费</a>
+    </div>
+  </PageHero>
+
+  <div class="container-x py-16 md:py-24">
+    {
+      FAQ_GROUPS.map((g) => (
+        <section class="grid gap-6 py-8 lg:grid-cols-[0.6fr_1.6fr] lg:gap-16">
+          <h2 class="reveal text-[clamp(1.5rem,2.4vw,1.9rem)]">{g.title}</h2>
+          <div class="reveal">
+            <Accordion items={g.items} />
+          </div>
+        </section>
+      ))
+    }
+  </div>
+</Base>

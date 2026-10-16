@@ -1,0 +1,35 @@
+---
+import SectionHead from '../SectionHead.astro';
+import Icon from '../Icon.astro';
+import { url } from '../../lib/url';
+
+const fits = [
+  '线下经营的服装、鞋履、箱包门店',
+  '商品明码标价，有正规进货凭证',
+  '使用 POS 系统收银，销售和退款有据可查',
+  '能对退回商品做验收，确认可再次销售',
+];
+---
+
+<section class="bg-paper-2 py-24 md:py-28">
+  <div class="container-x grid gap-12 lg:grid-cols-[0.9fr_1.3fr] lg:gap-16">
+    <SectionHead title="适用门店" lede="满足以下条件的门店，都可以在线测算并申请投保。">
+      <a href={url('/coverage#conditions')} class="link reveal mt-6 inline-block text-[0.92rem]">查看投保条件</a>
+    </SectionHead>
+    <div class="reveal">
+      <ul class="divide-y divide-line rounded-[22px] border hairline bg-paper">
+        {
+          fits.map((f) => (
+            <li class="flex items-center gap-4 px-6 py-5">
+              <span class="grid size-8 shrink-0 place-items-center rounded-full bg-brand-soft text-brand">
+                <Icon name="check" class="size-4" />
+              </span>
+              <span class="text-[1rem] text-ink">{f}</span>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="mt-4 text-[0.84rem] text-ink-2">以清仓、特价、样品商品为主的门店，暂不适用。</p>
+    </div>
+  </div>
+</section>

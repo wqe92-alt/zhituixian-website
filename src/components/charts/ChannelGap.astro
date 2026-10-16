@@ -1,0 +1,105 @@
+---
+// 网购退货率 vs 线下门店退货率（对数轴）
+interface Row {
+  label: string;
+  sub?: string;
+  from: number;
+  to?: number;
+  mark?: number;
+  text: string;
+  offline?: boolean;
+}
+
+const LO = Math.log10(0.1);
+const HI = Math.log10(100);
+const x = (v: number) => ((Math.log10(v) - LO) / (HI - LO)) * 100;
+
+const rows: Row[] = [
+  { label: '线下门店', sub: '符合投保条件的门店', from: 0.2, to: 4, mark: 1.8, text: '0.2%–4%，平均约 1.8%', offline: true },
+  { label: '网购平均 · 2024', from: 20.4, text: '20.4%' },
+  { label: '鞋类 · 网购', from: 20, to: 25, text: '20%–25%' },
+  { label: '男装 · 网购', from: 30, to: 40, text: '30%–40%' },
+  { label: '女装 · 网购', from: 50, to: 60, text: '50%–60%' },
+  { label: '直播带货', from: 80, to: 100, text: '80% 以上' },
+];
+const ticks = [0.1, 0.5, 1, 2, 5, 10, 20, 50, 100];
+const cols = 'grid grid-cols-[minmax(6.8rem,10.5rem)_1fr] gap-x-4 sm:gap-x-6';
+---
+
+<div class="relative">
+  <div class={`${cols} pointer-events-none absolute inset-0`} aria-hidden="true">
+    <span></span>
+    <div class="relative">
+      {ticks.map((t) => <span class="absolute inset-y-0 w-px bg-line" style={`left:${x(t)}%`} />)}
+    </div>
+  </div>
+
+  <ul class="relative">
+    {
+      rows.map((r) => {
+        const left = x(r.from);
+        const right = r.to ? x(r.to) : left;
+        const flip = right > 72;
+        return (
+          <li class={`${cols} items-center py-[0.55rem]`}>
+            <span class="text-[0.82rem] leading-tight sm:text-[0.88rem]">
+              <span class:list={['font-semibold', r.offline ? 'text-brand' : 'text-ink']}>{r.label}</span>
+              {r.sub && <span class="mt-0.5 block text-[0.7rem] text-ink-2">{r.sub}</span>}
+            </span>
+            <span class="relative block h-7">
+              {r.to ? (
+                <span
+                  class:list={[
+                    'absolute top-1/2 -translate-y-1/2 rounded-full',
+                    r.offline ? 'h-3.5 bg-brand' : 'h-2.5 bg-mist/70',
+                  ]}
+                  style={`left:${left}%;width:${right - left}%`}
+                />
+              ) : (
+                <span class="absolute top-1/2 size-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-plum" style={`left:${left}%`} />
+              )}
+              {r.mark && (
+                <span
+                  class="absolute top-1/2 size-3 -translate-x-1/2 -translate-y-1/2 rotate-45 border-2 border-paper bg-ink"
+                  style={`left:${x(r.mark)}%`}
+                />
+              )}
+              {r.offline && (
+                <span class="absolute top-1/2 hidden -translate-y-1/2 items-center sm:flex" style={`left:calc(${right}% + 0.5rem);width:calc(${x(20) - right}% - 1rem)`}>
+                  <span class="h-px flex-1 border-t border-dashed border-brand/50" />
+                  <span class="mx-2 whitespace-nowrap rounded-full bg-brand-soft px-2 py-0.5 text-[0.7rem] font-semibold text-brand">
+                    低一个数量级
+                  </span>
+                  <span class="h-px flex-1 border-t border-dashed border-brand/50" />
+                </span>
+              )}
+              <span
+                class:list={[
+                  'absolute top-1/2 -translate-y-1/2 whitespace-nowrap text-[0.74rem] font-semibold sm:text-[0.8rem]',
+                  r.offline ? 'text-brand' : 'text-ink-2',
+                  r.offline && 'top-[calc(50%+1.05rem)] sm:top-[calc(50%+1.1rem)]',
+                ]}
+                style={flip ? `right:calc(${100 - left}% + 0.6rem)` : r.offline ? `left:${left}%` : `left:calc(${right}% + 0.7rem)`}
+              >
+                {r.text}
+              </span>
+            </span>
+          </li>
+        );
+      })
+    }
+  </ul>
+
+  <div class={`${cols} mt-3 border-t hairline pt-2`} aria-hidden="true">
+    <span class="text-[0.7rem] text-ink-2">退货率</span>
+    <span class="relative block h-5">
+      {
+        ticks.map((t) => (
+          <span class="absolute -translate-x-1/2 text-[0.7rem] text-ink-2" style={`left:${x(t)}%`}>
+            {t}%
+          </span>
+        ))
+      }
+    </span>
+  </div>
+</div>

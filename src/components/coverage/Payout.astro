@@ -1,0 +1,70 @@
+---
+import SectionHead from '../SectionHead.astro';
+import Icon from '../Icon.astro';
+import model from '../../data/model.json';
+import { yuan } from '../../lib/format';
+
+const d = model.pricing.deductible;
+const examples = [
+  { label: '普通月份', loss: 860 },
+  { label: '退货较多的月份', loss: 2178 },
+  { label: '退货集中的月份', loss: 5000 },
+];
+---
+
+<section id="payout" class="container-x py-20 md:py-28">
+  <SectionHead
+    title="赔付金额的计算"
+    lede="退回商品经门店验收、可以再次销售时，门店损失的是再次销售时的折价。智退险按这部分损失赔付。"
+  />
+  <div class="reveal mt-12 rounded-[26px] bg-ink px-6 py-10 text-center text-paper sm:px-10">
+    <p class="eyebrow !text-blush">每笔赔付</p>
+    <p class="num mt-5 text-[clamp(1.6rem,4.2vw,3rem)] leading-tight">
+      售价 <span class="text-blush">×</span> 赔付比例 <span class="text-blush">×</span> 件数
+    </p>
+    <p class="mt-5 text-[0.95rem] text-paper/70">赔付比例一般为 3%–8%，按商品类别和价格确定</p>
+  </div>
+  <p class="reveal mt-5 text-[0.9rem] leading-relaxed text-ink-2">
+    退回商品有明显损坏、无法再次销售的，按实际损失单独核定。每月汇总所有核定损失，扣除每月免赔额后赔付。
+  </p>
+
+  <div class="mt-12 grid gap-5 lg:grid-cols-2">
+    <div class="reveal card p-7">
+      <p class="eyebrow">每月免赔额</p>
+      <p class="num mt-4 text-[2.6rem] leading-none text-ink">{yuan(d)}<span class="ml-1 text-base text-ink-2">元</span></p>
+      <p class="mt-4 text-[0.94rem] leading-[1.85] text-ink-2">
+        每月核定损失在 {yuan(d)} 元以内的部分由门店自理。小额退货不必逐笔申报，保费也因此更低。免赔额按月计算，不按笔计算。
+      </p>
+    </div>
+    <div class="reveal rounded-[18px] bg-brand-soft/70 p-7" style="--d:.08s">
+      <p class="eyebrow">单月赔付</p>
+      <p class="serif mt-4 text-[2rem] font-semibold leading-none text-brand-deep">不封顶</p>
+      <p class="mt-4 text-[0.94rem] leading-[1.85] text-ink">
+        退货集中的月份，扣除免赔额后按实际损失赔付，单月不设上限。这部分保障的成本已包含在保费中。如需在保单中约定赔付上限，可以联系顾问定制。
+      </p>
+    </div>
+  </div>
+
+  <div class="reveal mt-5 overflow-x-auto rounded-[20px] border hairline bg-white/55">
+    <table class="data-table min-w-[30rem]">
+      <thead>
+        <tr><th>示例</th><th class="n">当月核定损失</th><th class="n">每月免赔额</th><th class="n">当月赔付</th></tr>
+      </thead>
+      <tbody>
+        {
+          examples.map((e) => (
+            <tr>
+              <td class="text-ink">{e.label}</td>
+              <td class="n num">¥{yuan(e.loss)}</td>
+              <td class="n num text-ink-2">¥{yuan(d)}</td>
+              <td class="n num font-semibold text-brand">¥{yuan(Math.max(0, e.loss - d))}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+  <p class="reveal mt-3 flex items-center gap-2 text-[0.8rem] text-ink-2">
+    <Icon name="info" class="size-4" /> 示例金额仅用于说明计算方式。
+  </p>
+</section>

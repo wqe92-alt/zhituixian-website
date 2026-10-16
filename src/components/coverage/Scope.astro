@@ -1,0 +1,56 @@
+---
+import SectionHead from '../SectionHead.astro';
+import Icon from '../Icon.astro';
+import { EXCLUSIONS, SCOPE_BY_POLICY } from '../../content/terms';
+import type { IconName } from '../../lib/icons';
+
+const covered = [
+  '按您门店退货政策发生的退货',
+  '因商品质量问题或描述不符的退货',
+  '买卖双方协商一致的退货',
+  '销售季结束后，仍在退货期限内的退货',
+];
+
+const policies: { v: 'A' | 'B' | 'C'; name: string; icon: IconName }[] = [
+  { v: 'A', name: '不退不换', icon: 'lock' },
+  { v: 'B', name: '限期换货', icon: 'refresh' },
+  { v: 'C', name: '15 天无理由退货', icon: 'shield-check' },
+];
+---
+
+<section id="scope" class="container-x py-20 md:py-28">
+  <SectionHead title="保障与不保障的情形" />
+  <div class="mt-12 grid gap-5 md:grid-cols-2">
+    <div class="reveal card p-7">
+      <p class="flex items-center gap-2 font-semibold text-ink"><Icon name="check" class="size-5 text-brand" /> 在保障范围内</p>
+      <ul class="mt-5 space-y-3 text-[0.95rem] leading-relaxed text-ink">
+        {covered.map((c) => <li class="flex gap-3"><span class="mt-2.5 size-1.5 shrink-0 rounded-full bg-brand" />{c}</li>)}
+      </ul>
+    </div>
+    <div class="reveal card-paper p-7" style="--d:.08s">
+      <p class="flex items-center gap-2 font-semibold text-ink"><Icon name="x" class="size-5 text-ink-2" /> 不在保障范围内</p>
+      <ul class="mt-5 space-y-3 text-[0.95rem] leading-relaxed text-ink">
+        {EXCLUSIONS.map((e) => <li class="flex gap-3"><span class="mt-2.5 size-1.5 shrink-0 rounded-full bg-ink-3" />{e}</li>)}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="policy" class="bg-paper-2 py-20 md:py-28">
+  <div class="container-x">
+    <SectionHead title="保障范围随退货政策确定" lede="您在投保时选择门店的退货政策，并写入保单。承诺越宽松，保障范围越大，费率也越高。" />
+    <div class="mt-12 grid gap-5 md:grid-cols-3">
+      {
+        policies.map((p, i) => (
+          <article class:list={['reveal flex flex-col rounded-[22px] p-7', p.v === 'C' ? 'bg-ink text-paper' : 'bg-paper']} style={`--d:${i * 0.08}s`}>
+            <span class:list={['grid size-11 place-items-center rounded-full', p.v === 'C' ? 'bg-brand text-white' : 'bg-brand-soft text-brand']}>
+              <Icon name={p.icon} class="size-5" />
+            </span>
+            <h3 class:list={['mt-6 text-[1.35rem]', p.v === 'C' && 'text-paper']}>{p.name}</h3>
+            <p class:list={['mt-3 text-[0.92rem] leading-[1.85]', p.v === 'C' ? 'text-paper/75' : 'text-ink-2']}>{SCOPE_BY_POLICY[p.v]}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

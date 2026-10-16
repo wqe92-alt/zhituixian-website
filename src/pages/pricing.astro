@@ -1,0 +1,57 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import HowPriced from '../components/pricing/HowPriced.astro';
+import SeasonBars from '../components/pricing/SeasonBars.astro';
+import Dividend from '../components/pricing/Dividend.astro';
+import WhyLow from '../components/pricing/WhyLow.astro';
+import { quote, TYPICAL_INPUT } from '../lib/engine';
+import { pct, yuan } from '../lib/format';
+import { url } from '../lib/url';
+
+const q = quote(TYPICAL_INPUT);
+const wan = Math.round(TYPICAL_INPUT.monthlySalesYuan / 10000);
+const rows = [
+  ['常规月保费', `¥${yuan(q.premium.regular)}`, `约为销售额的 ${pct(q.ratePct.regular)}`],
+  ['换季月保费', `¥${yuan(q.premium.season)}`, '3、4、9、10 月'],
+  ['开通数据换利后', `¥${yuan(q.discounted.regular)}`, '常规月，保费 7 折'],
+];
+---
+
+<Base title="价格与优惠" active="/pricing" description="智退险保费按月销售额计算，费率由门店情况确定；每月回传经营数据，保费 7 折。">
+  <PageHero
+    eyebrow="价格与优惠"
+    title="按销售额计费，<br/>回传数据享 7 折"
+    lede="保费根据门店的销售额和经营情况确定。每月回传经营数据，保费打 7 折；经营记录越好，价格越优。"
+    tone="mix"
+    seed={1}
+  >
+    <div class="card bg-paper/85 p-6">
+      <p class="text-[0.86rem] text-ink-2">示例：月销售额 {wan} 万元的女装店</p>
+      <dl class="mt-4 divide-y divide-line">
+        {
+          rows.map(([k, v, s], i) => (
+            <div class="flex items-baseline justify-between gap-4 py-3">
+              <dt>
+                <span class="block font-semibold text-ink">{k}</span>
+                <span class="text-[0.78rem] text-ink-2">{s}</span>
+              </dt>
+              <dd class:list={['num text-[1.7rem] leading-none', i === 2 ? 'text-brand' : 'text-ink']}>{v}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </PageHero>
+
+  <HowPriced />
+  <SeasonBars />
+  <Dividend />
+  <WhyLow />
+
+  <section class="container-x flex flex-col items-start justify-between gap-6 py-16 md:flex-row md:items-center">
+    <p class="serif text-[clamp(1.4rem,2.6vw,2rem)] leading-snug">测算您门店的保费，以及开通数据换利后的价格。</p>
+    <a href={url('/quote')} class="btn btn-primary">测算保费 <Icon name="arrow-right" class="arrow size-4" /></a>
+  </section>
+</Base>

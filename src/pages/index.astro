@@ -1,0 +1,81 @@
+---
+import Base from '../layouts/Base.astro';
+import HeroArt from '../components/home/HeroArt.astro';
+import MiniQuote from '../components/home/MiniQuote.svelte';
+import Benefits from '../components/home/Benefits.astro';
+import Offers from '../components/home/Offers.astro';
+import HowItPays from '../components/home/HowItPays.astro';
+import PeerProof from '../components/home/PeerProof.astro';
+import Eligibility from '../components/home/Eligibility.astro';
+import SectionHead from '../components/SectionHead.astro';
+import Accordion from '../components/Accordion.astro';
+import Icon from '../components/Icon.astro';
+import Wash from '../components/Wash.astro';
+import { HOME_FAQ } from '../content/faq';
+import { url } from '../lib/url';
+---
+
+<Base title="首页" active="/">
+  <section class="relative overflow-hidden">
+    <div class="container-x grid items-center gap-12 pb-16 pt-10 md:pt-14 lg:grid-cols-[1.02fr_1fr] lg:gap-6 lg:pb-24">
+      <div class="relative z-10">
+        <p class="eyebrow rise">线下服装门店 · 退货损失保险</p>
+        <h1 class="rise mt-6 text-[clamp(2.6rem,6.2vw,4.9rem)] font-bold leading-[1.12] tracking-[0.02em]" style="--d:.08s">
+          专属于商家的，<br />智算<span class="relative inline-block text-brand"
+            >退货<svg class="absolute -bottom-2 left-0 h-3 w-full text-brand/40" viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"
+              ><path d="M2 8c40-6 90-7 196-2" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"></path></svg
+            ></span
+          >保障。
+        </h1>
+        <p class="rise mt-7 max-w-[34rem] text-[1.08rem] leading-[1.95] text-ink-2" style="--d:.16s">
+          顾客退货后，商品折价处理带来的损失，由智退险按月赔付。您可以放心向顾客承诺退换货。
+        </p>
+        <div class="rise mt-9 flex flex-wrap items-center gap-3" style="--d:.24s">
+          <a href={url('/quote')} class="btn btn-primary !px-7 !py-4 text-base">测算保费 <Icon name="arrow-right" class="arrow size-4" /></a>
+          <a href={url('/coverage')} class="btn btn-ghost !px-6 !py-4 text-base">了解保障</a>
+        </div>
+        <ul class="rise mt-8 flex flex-wrap gap-x-6 gap-y-2 text-[0.84rem] text-ink-2" style="--d:.32s">
+          <li class="flex items-center gap-1.5"><Icon name="check" class="size-4 text-brand" />免费测算，无需注册</li>
+          <li class="flex items-center gap-1.5"><Icon name="check" class="size-4 text-brand" />3 分钟出报价</li>
+          <li class="flex items-center gap-1.5"><Icon name="check" class="size-4 text-brand" />顾问一对一服务</li>
+        </ul>
+      </div>
+      <HeroArt />
+    </div>
+  </section>
+
+  <Benefits />
+
+  <section id="estimate" class="border-y hairline bg-paper/60 py-24 md:py-28">
+    <div class="container-x grid gap-12 lg:grid-cols-[0.8fr_1.6fr] lg:gap-16">
+      <SectionHead title="估算您的保费" lede="选择主营品类，填写月销售额，即可看到预估保费。完整测算约 3 分钟。" />
+      <div class="reveal"><MiniQuote client:visible /></div>
+    </div>
+  </section>
+
+  <Offers />
+  <HowItPays />
+  <PeerProof />
+  <Eligibility />
+
+  <section class="container-x py-24 md:py-28">
+    <div class="grid gap-12 lg:grid-cols-[0.8fr_1.4fr] lg:gap-16">
+      <SectionHead title="常见问题">
+        <a href={url('/faq')} class="btn btn-ghost reveal mt-8">全部问题 <Icon name="arrow-right" class="arrow size-4" /></a>
+      </SectionHead>
+      <div class="reveal"><Accordion items={HOME_FAQ} /></div>
+    </div>
+  </section>
+
+  <section class="relative overflow-hidden py-28 md:py-32">
+    <Wash tone="mix" seed={1} class="left-1/2 top-1/2 h-[720px] w-[720px] -translate-x-1/2 -translate-y-1/2" opacity={0.75} />
+    <div class="container-x relative text-center">
+      <h2 class="reveal mx-auto max-w-3xl text-[clamp(2.1rem,4.6vw,3.5rem)] leading-[1.25]">3 分钟，测算您门店的保费</h2>
+      <p class="reveal mx-auto mt-6 max-w-xl text-[1.02rem] text-ink-2">填写门店的基本情况，查看月保费、换季月保费和全年合计。</p>
+      <div class="reveal mt-10 flex flex-wrap justify-center gap-3">
+        <a href={url('/quote')} class="btn btn-primary !px-8 !py-4 text-base">开始测算 <Icon name="arrow-right" class="arrow size-4" /></a>
+        <button type="button" data-open-support class="btn btn-ghost !px-7 !py-4 text-base"><Icon name="chat" class="size-4" /> 联系顾问</button>
+      </div>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,98 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHead from '../components/SectionHead.astro';
+import Icon from '../components/Icon.astro';
+import SettlementDemo from '../components/claims/SettlementDemo.svelte';
+import model from '../data/model.json';
+import { yuan } from '../lib/format';
+import { url } from '../lib/url';
+import type { IconName } from '../lib/icons';
+
+const d = yuan(model.pricing.deductible);
+
+const steps: { icon: IconName; title: string; body: string }[] = [
+  { icon: 'box', title: '受理退货', body: '按您门店的退货政策受理顾客退货。质量问题、描述不符或协商一致的退货，同样可以申请赔付。' },
+  { icon: 'search', title: '验收留证', body: '确认退回商品吊牌、包装完好，未穿着、未洗涤，可以再次销售。记录退货件数，保留收银和物流凭证。' },
+  { icon: 'upload', title: '每月申报', body: '每月汇总当月的退货并提交申报材料。每笔损失按“售价 × 赔付比例 × 件数”核定。' },
+  { icon: 'wallet', title: '赔款到账', body: `当月核定损失合计扣除每月免赔额 ${d} 元后，余额支付到您的账户。` },
+];
+
+const materials: { icon: IconName; title: string; body: string }[] = [
+  { icon: 'receipt', title: 'POS 收银记录', body: '销售和退款记录' },
+  { icon: 'truck', title: '物流凭证', body: '涉及寄送的退货' },
+  { icon: 'search', title: '门店验收记录', body: '商品状态与件数' },
+];
+---
+
+<Base title="理赔服务" active="/claims" description="智退险理赔四步：受理退货、验收留证、每月申报、赔款到账。理赔材料：POS 收银记录、物流凭证和门店验收记录。">
+  <PageHero
+    eyebrow="理赔服务"
+    title="四步完成理赔"
+    lede="每笔退货按同一规则核定，每月汇总结算。您只需要做好收银记录和退货验收。"
+    tone="lilac"
+    seed={1}
+  >
+    <div id="materials" class="card bg-paper/85 p-6">
+      <p class="font-semibold text-ink">理赔需要准备</p>
+      <ul class="mt-4 grid gap-3 sm:grid-cols-3">
+        {
+          materials.map((m) => (
+            <li class="rounded-2xl bg-paper-2 p-4">
+              <Icon name={m.icon} class="size-6 text-brand" />
+              <p class="mt-3 text-[0.92rem] font-semibold text-ink">{m.title}</p>
+              <p class="mt-1 text-[0.8rem] text-ink-2">{m.body}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </PageHero>
+
+  <section class="container-x py-20 md:py-28">
+    <SectionHead title="理赔流程" />
+    <ol class="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+      {
+        steps.map((s, i) => (
+          <li class="reveal card flex flex-col p-7" style={`--d:${i * 0.08}s`}>
+            <div class="flex items-center justify-between">
+              <span class="grid size-12 place-items-center rounded-full bg-brand-soft text-brand">
+                <Icon name={s.icon} class="size-6" />
+              </span>
+              <span class="num text-sm text-ink-2">第 {i + 1} 步</span>
+            </div>
+            <h3 class="mt-6 text-[1.25rem]">{s.title}</h3>
+            <p class="mt-3 text-[0.92rem] leading-[1.85] text-ink-2">{s.body}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section class="bg-paper-2 py-20 md:py-28">
+    <div class="container-x">
+      <SectionHead title="一个月的赔付示例" lede="勾选或取消几笔退货，查看当月赔付的变化。" />
+      <div class="reveal mt-12"><SettlementDemo client:visible /></div>
+    </div>
+  </section>
+
+  <section class="container-x py-20 md:py-28">
+    <div class="grid gap-10 lg:grid-cols-[0.9fr_1.3fr] lg:gap-16">
+      <SectionHead title="理赔核查说明" />
+      <div class="reveal space-y-4 text-[0.98rem] leading-[1.9] text-ink-2">
+        <p>为了保护诚信经营的商家，我们会核对收银记录、物流信息和验收记录。每月申报的退货件数不应超过当月销量。</p>
+        <p>退回商品有明显损坏、无法再次销售的，按实际损失单独核定。存在骗保、伪造或串通退货记录的，不予赔付，并追回已支付的赔款。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-ink py-20 text-paper">
+    <div class="container-x flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
+      <p class="serif max-w-xl text-[clamp(1.5rem,3vw,2.2rem)] leading-snug">理赔材料不清楚怎么准备，顾问可以协助您。</p>
+      <div class="flex flex-wrap gap-3">
+        <button type="button" data-open-support="理赔咨询" class="btn btn-light"><Icon name="chat" class="size-4" /> 联系顾问</button>
+        <a href={url('/quote')} class="btn border border-paper/25 text-paper hover:border-paper">测算保费</a>
+      </div>
+    </div>
+  </section>
+</Base>

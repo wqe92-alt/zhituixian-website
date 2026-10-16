@@ -1,0 +1,60 @@
+---
+// 水彩晕染：预渲染的透明贴图（scripts/make-washes.py 生成），只做极慢的整体漂移
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  tone?: 'mix' | 'lilac' | 'blush' | 'plum' | 'brand';
+  seed?: number;
+  class?: string;
+  animate?: boolean;
+  opacity?: number;
+  flip?: boolean;
+  eager?: boolean;
+  /** 浅色底用 multiply 与纸色融合；深色底用 normal */
+  blend?: 'multiply' | 'normal';
+}
+
+const {
+  tone = 'mix',
+  seed = 1,
+  class: cls = '',
+  animate = true,
+  opacity = 1,
+  flip = false,
+  eager = false,
+  blend = 'multiply',
+} = Astro.props;
+
+const files = import.meta.glob<{ default: ImageMetadata }>('../assets/washes/*.png', { eager: true });
+const variants = Object.entries(files)
+  .filter(([path]) => path.includes(`/${tone}-`))
+  .map(([, mod]) => mod.default);
+const src = variants[seed % variants.length];
+const rotate = (seed * 47) % 360;
+---
+
+<div
+  class:list={['pointer-events-none absolute select-none', blend === 'multiply' && 'mix-blend-multiply', cls]}
+  style={`opacity:${opacity}`}
+  aria-hidden="true"
+>
+  <div class:list={['h-full w-full', animate && 'wash-drift']} style={`rotate:${rotate}deg;${flip ? 'scale:-1 1;' : ''}`}>
+    <Image
+      src={src}
+      alt=""
+      widths={[480, 900]}
+      sizes="(min-width: 768px) 640px, 90vw"
+      class="h-full w-full object-contain"
+      loading={eager ? 'eager' : 'lazy'}
+    />
+  </div>
+</div>
+
+<style>
+  .wash-drift {
+    animation: drift 46s ease-in-out infinite alternate;
+    transform-origin: 50% 50%;
+    will-change: transform;
+  }
+</style>

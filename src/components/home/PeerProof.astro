@@ -1,0 +1,37 @@
+---
+// 宁波试点：只用公开报道中已核实的数字，并注明仅供参考
+import SectionHead from '../SectionHead.astro';
+
+const stats = [
+  { v: '9,224', u: '笔', l: '累计退货理赔' },
+  { v: '62.5', u: '%', l: '参保商圈消费投诉下降' },
+  { v: '75', u: '%', l: '参保连锁企业消费投诉下降' },
+];
+---
+
+<section class="container-x py-24 md:py-28">
+  <div class="grid gap-12 lg:grid-cols-[0.9fr_1.3fr] lg:items-end lg:gap-16">
+    <SectionHead
+      title="线下退货保险，已在宁波推行"
+      lede="宁波自 2022 年 11 月起在全国率先试点线下无理由退货保险，覆盖服装鞋履等九大消费品类，由保险补贴商家的退货损失。"
+    />
+    <div class="reveal">
+      <ul class="grid gap-px overflow-hidden rounded-[22px] bg-line sm:grid-cols-3">
+        {
+          stats.map((s) => (
+            <li class="bg-paper p-6">
+              <p class="num text-[clamp(2.2rem,3.6vw,2.9rem)] leading-none text-ink">
+                {s.v}
+                <span class="ml-1 text-[0.45em] text-ink-2">{s.u}</span>
+              </p>
+              <p class="mt-3 text-[0.88rem] text-ink-2">{s.l}</p>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="mt-4 text-[0.78rem] leading-relaxed text-ink-2">
+        数据来自中国质量报等公开报道，统计截至 2025 年 10 月底。以上为宁波试点数据，仅供参考，不代表智退险的承诺效果。
+      </p>
+    </div>
+  </div>
+</section>

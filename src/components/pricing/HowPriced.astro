@@ -1,0 +1,27 @@
+---
+import SectionHead from '../SectionHead.astro';
+import { RATE_FACTORS } from '../../content/pricing';
+---
+
+<section id="how" class="container-x py-20 md:py-28">
+  <SectionHead title="保费的计算方式" lede="费率根据您门店的商品、位置和经营方式确定，在线测算时即可看到。" />
+  <div class="reveal mt-12 rounded-[26px] bg-ink px-6 py-10 text-center text-paper sm:px-10">
+    <p class="eyebrow !text-blush">月保费</p>
+    <p class="num mt-5 text-[clamp(1.6rem,4.2vw,3rem)] leading-tight">
+      当月销售额 <span class="text-blush">×</span> 费率
+    </p>
+    <p class="mt-5 text-[0.95rem] text-paper/70">销售额高的月份多交，淡季少交</p>
+  </div>
+
+  <h3 class="reveal mt-16 text-[1.35rem]">影响费率的因素</h3>
+  <ul class="mt-6 grid gap-x-10 gap-y-px md:grid-cols-2">
+    {
+      RATE_FACTORS.map((f, i) => (
+        <li class="reveal grid grid-cols-[6.5rem_1fr] gap-4 border-b hairline py-4" style={`--d:${(i % 2) * 0.05}s`}>
+          <span class="font-semibold text-ink">{f.name}</span>
+          <span class="text-[0.92rem] leading-[1.8] text-ink-2">{f.text}</span>
+        </li>
+      ))
+    }
+  </ul>
+</section>

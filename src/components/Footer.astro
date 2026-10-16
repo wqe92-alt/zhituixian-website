@@ -1,0 +1,101 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { url } from '../lib/url';
+import { site } from '../config/site';
+import { supportConfig } from '../support/support.config';
+
+const COLS = [
+  {
+    title: '产品',
+    links: [
+      { href: '/coverage', label: '保障范围' },
+      { href: '/claims', label: '理赔服务' },
+      { href: '/pricing', label: '价格与优惠' },
+      { href: '/quote', label: '测算保费' },
+    ],
+  },
+  {
+    title: '帮助',
+    links: [
+      { href: '/faq', label: '常见问题' },
+      { href: '/coverage#terms', label: '保险条款' },
+      { href: '/claims#materials', label: '理赔材料' },
+    ],
+  },
+  {
+    title: '关于',
+    links: [
+      { href: '/about', label: '关于我们' },
+      { href: '/about#team', label: '团队' },
+      { href: '/about#contact', label: '联系我们' },
+    ],
+  },
+];
+---
+
+<footer class="site-footer relative overflow-hidden bg-ink text-paper">
+  <div class="container-x pt-20 md:pt-24">
+    <div class="grid gap-10 border-b border-paper/12 pb-14 md:grid-cols-[1.4fr_1fr] md:items-end">
+      <p class="serif max-w-2xl text-[clamp(1.7rem,3.2vw,2.6rem)] leading-[1.35]">
+        放心承诺退换货，<br />折价损失由智退险分担。
+      </p>
+      <div class="flex flex-wrap gap-3 md:justify-end">
+        <a href={url('/quote')} class="btn btn-primary">测算保费 <Icon name="arrow-right" class="arrow size-4" /></a>
+        <button type="button" class="btn border border-paper/25 text-paper hover:border-paper" data-open-support>
+          <Icon name="chat" class="size-4" /> 联系顾问
+        </button>
+      </div>
+    </div>
+
+    <div class="grid gap-12 py-14 md:grid-cols-[1.3fr_repeat(3,1fr)]">
+      <div class="max-w-xs">
+        <div class="footer-logo"><Logo /></div>
+        <p class="mt-5 text-[0.88rem] leading-relaxed text-paper/65">线下服装门店退货损失保险。按笔核定，按月赔付，单月赔付不封顶。</p>
+        <a href={`tel:${supportConfig.phone.tel}`} class="mt-5 inline-flex items-center gap-2 text-[0.9rem] text-paper/85 hover:text-paper">
+          <Icon name="phone" class="size-4" />
+          {supportConfig.phone.display}
+        </a>
+      </div>
+      {
+        COLS.map((c) => (
+          <div>
+            <p class="eyebrow !text-blush/80">{c.title}</p>
+            <ul class="mt-5 space-y-3">
+              {c.links.map((l) => (
+                <li>
+                  <a href={url(l.href)} class="text-[0.92rem] text-paper/75 transition hover:text-paper">
+                    {l.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="space-y-2 border-t border-paper/12 py-8 text-[0.78rem] leading-[1.85] text-paper/55">
+      <p>具体保障以保险合同条款为准。网页报价根据您填写的信息估算，最终以核保结果为准。</p>
+      {site.underwriter && <p>承保机构：{site.underwriter}</p>}
+      {site.license && <p>{site.license}</p>}
+    </div>
+  </div>
+
+  <div class="container-x pb-8">
+    <Logo variant="wordmark" class="w-full text-paper/[0.07]" />
+    <p class="mt-6 text-[0.75rem] text-paper/45">© 2026 智退险 SMART RETURN</p>
+  </div>
+</footer>
+
+<style>
+  .footer-logo :global(.text-ink) {
+    color: var(--color-paper);
+  }
+  .footer-logo :global(.text-ink-2) {
+    color: rgb(250 246 240 / 0.6);
+  }
+  .footer-logo :global(.text-brand) {
+    color: var(--color-blush);
+  }
+</style>

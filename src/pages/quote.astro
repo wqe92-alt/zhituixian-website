@@ -1,0 +1,45 @@
+---
+import Base from '../layouts/Base.astro';
+import QuoteWizard from '../components/quote/QuoteWizard.svelte';
+import Wash from '../components/Wash.astro';
+import Icon from '../components/Icon.astro';
+import model from '../data/model.json';
+import { yuan } from '../lib/format';
+
+const notes = [
+  { icon: 'scale' as const, title: '保费怎么算', body: '月保费 = 当月销售额 × 费率，费率按您门店的情况确定。' },
+  { icon: 'shield-check' as const, title: '报价包含', body: `每月免赔额 ${yuan(model.pricing.deductible)} 元，单月赔付不封顶。` },
+  { icon: 'chat' as const, title: '需要帮助', body: '顾问可以协助您完成测算和投保。' },
+];
+---
+
+<Base title="测算保费" description="填写门店的基本情况，3 分钟查看智退险月保费、换季月保费和全年合计。" active="/quote">
+  <section class="relative overflow-hidden">
+    <Wash tone="lilac" seed={1} class="-right-[14%] -top-[18%] h-[620px] w-[620px]" opacity={0.5} eager />
+    <div class="container-x relative pb-24 pt-10 md:pt-14">
+      <div class="no-print mb-12 max-w-2xl">
+        <p class="eyebrow rise">测算保费</p>
+        <h1 class="rise mt-5 text-[clamp(2.2rem,4.6vw,3.4rem)] font-bold leading-[1.15]" style="--d:.06s">测算您门店的保费</h1>
+        <p class="rise mt-4 text-[1rem] leading-[1.9] text-ink-2" style="--d:.12s">
+          填写门店的基本情况，即可查看月保费、换季月保费和全年合计。全程约 3 分钟，无需注册。
+        </p>
+      </div>
+      <QuoteWizard client:load />
+    </div>
+  </section>
+
+  <section class="no-print border-t hairline bg-paper-2">
+    <div class="container-x grid gap-8 py-14 md:grid-cols-3">
+      {
+        notes.map((n) => (
+          <div class="flex gap-4">
+            <Icon name={n.icon} class="size-6 shrink-0 text-brand" />
+            <p class="text-[0.9rem] leading-relaxed text-ink-2">
+              <span class="font-semibold text-ink">{n.title}</span>：{n.body}
+            </p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+</Base>

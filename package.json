@@ -9,7 +9,7 @@
     "predev": "npm run sync",
     "dev": "astro dev",
     "prebuild": "npm run sync",
-    "build": "astro build && node scripts/redline-scan.mjs",
+    "build": "astro build && node scripts/css-compat.mjs && node scripts/redline-scan.mjs",
     "preview": "astro preview",
     "pretest": "npm run sync",
     "test": "vitest run",
@@ -27,6 +27,9 @@
     "typescript": "6.0.3"
   },
   "devDependencies": {
+    "@csstools/postcss-cascade-layers": "6.0.2",
+    "lightningcss": "1.32.0",
+    "postcss": "8.5.29",
     "vitest": "5.0.4"
   },
   "engines": {

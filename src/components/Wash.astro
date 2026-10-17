@@ -57,4 +57,11 @@ const rotate = (seed * 47) % 360;
     transform-origin: 50% 50%;
     will-change: transform;
   }
+  /* 手机上保持静止：十几张大图同时做混合动画会拖慢滚动 */
+  @media (hover: none), (max-width: 47.99rem) {
+    .wash-drift {
+      animation: none;
+      will-change: auto;
+    }
+  }
 </style>

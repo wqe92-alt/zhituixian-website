@@ -18,7 +18,7 @@ const NAV = [
 
 <header class="site-header sticky top-0 z-50" data-header>
   <div class="header-bg absolute inset-0 -z-10 border-b border-transparent transition-colors duration-300"></div>
-  <div class="container-x flex h-[5.4rem] items-center justify-between gap-6">
+  <div class="container-x flex h-[4.5rem] items-center justify-between gap-6 sm:h-[5.4rem]">
     <a href={url('/')} class="shrink-0" aria-label="智退险首页">
       <Logo />
     </a>
@@ -107,12 +107,18 @@ const NAV = [
   .header-bg {
     background: rgb(250 246 240 / 0.72);
     backdrop-filter: saturate(1.4) blur(14px);
-    -webkit-backdrop-filter: saturate(1.4) blur(14px);
   }
   [data-scrolled] .header-bg,
   [data-menu-open] .header-bg {
     border-bottom-color: var(--color-line);
     background: rgb(250 246 240 / 0.97);
+  }
+  /* 手机上不做背景模糊：吸顶层每帧重算模糊，滚动会掉帧 */
+  @media (hover: none), (max-width: 47.99rem) {
+    .header-bg {
+      background: rgb(250 246 240 / 0.96);
+      backdrop-filter: none;
+    }
   }
   .nav-link {
     position: relative;

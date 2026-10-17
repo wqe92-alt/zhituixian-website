@@ -83,7 +83,11 @@ const line = (d / 2600) * 100;
       0 24px 60px -28px rgb(75 35 70 / 0.45),
       0 2px 6px -2px rgb(27 28 32 / 0.08);
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+  }
+  @media (hover: none), (max-width: 47.99rem) {
+    .hero-card {
+      backdrop-filter: none;
+    }
   }
   .hook-q,
   .hook-c {

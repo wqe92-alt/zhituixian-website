@@ -47,7 +47,12 @@
     font-size: 16px;
     line-height: 1.8;
     min-height: 100vh;
-    overflow-x: clip;
+    overflow-x: hidden;
+  }
+  @supports (overflow: clip) {
+    body {
+      overflow-x: clip;
+    }
   }
   /* 纸张颗粒 */
   body::before {
@@ -59,6 +64,12 @@
     opacity: 0.32;
     mix-blend-mode: multiply;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.42 0 0 0 0 0.36 0 0 0 0 0.3 0 0 0 0.16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  /* 触屏与窄屏不叠颗粒：全屏混合层需要逐帧合成，手机滚动会明显卡顿 */
+  @media (hover: none), (max-width: 47.99rem) {
+    body::before {
+      display: none;
+    }
   }
   h1,
   h2,
@@ -286,6 +297,33 @@
   .js .reveal.is-in {
     opacity: 1;
     transform: none;
+  }
+  /* 手机上内容直接显示，快速滑动时不出现空白 */
+  @media (hover: none), (max-width: 47.99rem) {
+    .js .reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+
+  /* 不支持独立 translate/rotate 属性的旧内核（Chrome < 104）改用 transform 定位 */
+  @supports not (translate: 0) {
+    .-translate-x-1\/2 {
+      transform: translateX(-50%);
+    }
+    .-translate-y-1\/2 {
+      transform: translateY(-50%);
+    }
+    .-translate-x-1\/2.-translate-y-1\/2 {
+      transform: translate(-50%, -50%);
+    }
+    .-translate-x-1\/2.-translate-y-1\/2.rotate-45 {
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+    .group[open] .group-open\:rotate-45 {
+      transform: rotate(45deg);
+    }
   }
 
   /* 原生 popover：数字出处卡 */

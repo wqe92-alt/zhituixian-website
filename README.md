@@ -8,11 +8,13 @@
 npm install          # 首次安装（Node ≥ 22.12）
 npm run dev          # 本地开发 http://localhost:4321
 npm test             # 报价引擎单元测试
-npm run build        # 同步数据 → 构建 dist/ → 用语扫描（命中则构建失败）
+npm run build        # 同步数据 → 构建 dist/ → 样式兼容处理 → 用语扫描（命中则构建失败）
 npm run preview      # 预览 dist/
 ```
 
 `dist/` 可直接放到任意静态托管。部署到子路径时，把 `astro.config.mjs` 里的 `base` 改成 `'/<子路径>/'`。
+
+构建后 `scripts/css-compat.mjs` 会处理手机浏览器兼容：把样式降级到 iOS 15.4 / Chrome 99 也能识别的写法，并为不支持 CSS 分层（`@layer`）的旧内核额外生成 `legacy.*.css`，只有这些浏览器会加载它。手机端（触屏或窄屏）默认关闭纸张颗粒、水彩漂移、滚动淡入和头部模糊，保证滑动流畅。
 
 ## 页面
 

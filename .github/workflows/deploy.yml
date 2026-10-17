@@ -1,0 +1,50 @@
+# GitHub Pages 自动部署：推送到 main 后自动构建并发布
+# 站点地址：https://<user>.github.io/zhituixian-website/
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      # GitHub Pages 项目站部署在 /<repo>/ 子路径（站内链接由 src/lib/url.ts 自动拼接）
+      SITE_BASE: /zhituixian-website/
+      NODE_VERSION: 22.12.0
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - run: npm ci
+      - name: Build
+        run: npm run build
+        env:
+          # Dify AI 客服密钥：存在仓库 Secrets 中，不进入公开代码
+          PUBLIC_DIFY_API_KEY: ${{ secrets.PUBLIC_DIFY_API_KEY }}
+          PUBLIC_DIFY_API_BASE: https://api.dify.ai/v1
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
